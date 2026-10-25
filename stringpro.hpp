@@ -44,8 +44,15 @@ namespace pro
     }
     inline std::string deleteEmpty(std::string &word)
     {
-
-        word.erase(remove(word.begin(), word.end(), ' '), word.end());
+        std::string result = "";
+        for (char c : word)
+        {
+            if (c != ' ')
+            {
+                result += c;
+            }
+        }
+        word = result;
         return word;
     }
     inline std::string sub_str_until(std::string str, const std::string &until_target)
