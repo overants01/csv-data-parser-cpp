@@ -1,10 +1,9 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <vector>
 #include "stringpro.hpp"
 
-using std::cout, std::cin, std::ofstream, std::ifstream, std::vector, std::string, std::getline;
+using std::cout, std::cin, std::ofstream, std::ifstream, std::string, std::getline;
 using namespace pro;
 
 void NewData(const string &FileName, const string &Data)
@@ -17,6 +16,17 @@ void NewData(const string &FileName, const string &Data)
     }
     DataFile << Data << "\n";
     DataFile.close();
+}
+
+string reverseDay(const string &Day)
+{
+    string clone = Day;
+    string result = "";
+    for (int i = clone.length() - 1; i >= 0; i--)
+    {
+        result += clone[i];
+    }
+    return result;
 }
 
 string getData(const string &FileName)
@@ -84,8 +94,110 @@ string getDataDay(const string &FileName, const string &DayTarget)
     return Data;
 }
 
+string getDataDays(const string &FileName, const string &StartDay, const string &EndDay)
+{
+    ifstream DataFile(FileName);
+    if (!DataFile.is_open())
+    {
+        cout << "Cannot Open File: " << FileName << "!\n";
+        return "";
+    }
+    string line;
+    string Data = "";
+
+    while (getline(DataFile, line))
+    {
+        if (start_with(line, "."))
+        {
+            continue;
+        }
+        // line == day, time, expenses, Income
+        deleteEmpty(line);                                       // line == day,time,expenses,Income
+        string day = get_str_until(line, ",");                   // day
+        string Time = sub_str_until(line, ",");                  // time,expenses,Income
+        Time = get_str_until(Time, ",");                         // time
+        string expenses = sub_str(line, day + "," + Time + ","); // expenses,Income
+        expenses = get_str_until(expenses, ",");
+        string Income = sub_str(line, day + "," + Time + "," + expenses + ",");
+        string reversedDay = reverseDay(day);
+        string reversedStartDay = reverseDay(StartDay);
+        string reversedEndDay = reverseDay(EndDay);
+        if (reversedDay >= reversedStartDay && day <= reversedEndDay)
+        {
+            Data = Data + "\nDay: " + day + " Time: " + Time + " Expenses: " + expenses + " Income: " + Income + "\n";
+        }
+    }
+    DataFile.close();
+    return Data;
+}
+
+double getALLexpenses(const string &FileName)
+{
+    ifstream DataFile(FileName);
+    if (!DataFile.is_open())
+    {
+        cout << "Cannot Open File: " << FileName << "!\n";
+        return 0;
+    }
+    string line;
+    double expenses = 0;
+
+    while (getline(DataFile, line))
+    {
+        if (start_with(line, "."))
+        {
+            continue;
+        }
+        // line == day, time, expenses, Income
+        deleteEmpty(line);                                           // line == day,time,expenses,Income
+        string day = get_str_until(line, ",");                       // day
+        string Time = sub_str_until(line, ",");                      // time,expenses,Income
+        Time = get_str_until(Time, ",");                             // time
+        string expenses_str = sub_str(line, day + "," + Time + ","); // expenses,Income
+        expenses_str = get_str_until(expenses_str, ",");
+        expenses += std::stod(expenses_str);
+    }
+    DataFile.close();
+    return expenses;
+}
+
+double getALLIncome(const string &FileName)
+{
+    ifstream DataFile(FileName);
+    if (!DataFile.is_open())
+    {
+        cout << "Cannot Open File: " << FileName << "!\n";
+        return 0;
+    }
+    string line;
+    double Income = 0;
+
+    while (getline(DataFile, line))
+    {
+        if (start_with(line, "."))
+        {
+            continue;
+        }
+        // line == day, time, expenses, Income
+        deleteEmpty(line);                                           // line == day,time,expenses,Income
+        string day = get_str_until(line, ",");                       // day
+        string Time = sub_str_until(line, ",");                      // time,expenses,Income
+        Time = get_str_until(Time, ",");                             // time
+        string expenses_str = sub_str(line, day + "," + Time + ","); // expenses,Income
+        expenses_str = get_str_until(expenses_str, ",");
+        string Income_str = sub_str(line, day + "," + Time + "," + expenses_str + ",");
+        Income += std::stod(Income_str);
+    }
+    DataFile.close();
+    return Income;
+}
+
 int main()
 {
-    cout << getDataDay("data.csv", "25/10/69") << "\n";
+
+    cout << getDataDays("data.csv", "25/10/69", "29/10/69") << "\n";
+    // cout << getALLexpenses("data.csv") << "\n";
+    // cout << getALLIncome("data.csv") << "\n";
+    // cout << getData("data.csv") << "\n";
     return 0;
 }
