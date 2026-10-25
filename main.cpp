@@ -122,7 +122,7 @@ string getDataDays(const string &FileName, const string &StartDay, const string 
         string reversedDay = reverseDay(day);
         string reversedStartDay = reverseDay(StartDay);
         string reversedEndDay = reverseDay(EndDay);
-        if (reversedDay >= reversedStartDay && day <= reversedEndDay)
+        if (reversedDay >= reversedStartDay && reversedDay <= reversedEndDay)
         {
             Data = Data + "\nDay: " + day + " Time: " + Time + " Expenses: " + expenses + " Income: " + Income + "\n";
         }
