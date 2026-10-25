@@ -192,10 +192,58 @@ double getALLIncome(const string &FileName)
     return Income;
 }
 
+void EditData(const string &FileName, string &DayOldAndTime, const string &NewData)
+{
+    ifstream DataFile(FileName);
+    if (!DataFile.is_open())
+    {
+        cout << "Cannot Open File: " << FileName << "!\n";
+        return;
+    }
+    string line;
+    string Data = ".day, time, expenses, Income\n";
+
+    while (getline(DataFile, line))
+    {
+        if (start_with(line, "."))
+        {
+            continue;
+        }
+        // line == day, time, expenses, Income
+        deleteEmpty(line);                                       // line == day,time,expenses,Income
+        deleteEmpty(DayOldAndTime);                              // DayOldAndTime == day,time
+        string day = get_str_until(line, ",");                   // day
+        string Time = sub_str_until(line, ",");                  // time,expenses,Income
+        Time = get_str_until(Time, ",");                         // time
+        string expenses = sub_str(line, day + "," + Time + ","); // expenses,Income
+        expenses = get_str_until(expenses, ",");
+        string Income = sub_str(line, day + "," + Time + "," + expenses + ",");
+        if (day + "," + Time == DayOldAndTime)
+        {
+            Data += NewData + "\n";
+        }
+        else
+        {
+            Data += line + "\n";
+        }
+    }
+    DataFile.close();
+    ofstream OutFile(FileName, std::ios::trunc);
+    if (!OutFile.is_open())
+    {
+        cout << "Cannot Open File: " << FileName << "!\n";
+        return;
+    }
+    OutFile << Data;
+    OutFile.close();
+}
+
 int main()
 {
 
     cout << getDataDays("data.csv", "25/10/69", "29/10/69") << "\n";
+    string DayOldAndTime = "25/10/69, 12:00";
+    EditData("data.csv", DayOldAndTime, "25/10/69, 12:00, 100, 200");
     // cout << getALLexpenses("data.csv") << "\n";
     // cout << getALLIncome("data.csv") << "\n";
     // cout << getData("data.csv") << "\n";
