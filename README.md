@@ -33,19 +33,21 @@
 
 ```text
 
-300
-
-1079
-
 Day: 25/10/69 Time: 12:00 Expenses: 0 Income: 0
 
 Day: 25/10/69 Time: 13:00 Expenses: 0 Income: 10
 
 Day: 25/10/69 Time: 14:00 Expenses: 0 Income: 20
 
-Day: 25/10/69 Time: 15:00 Expenses: 0 Income: 50
+Day: 25/10/69 Time: 15:00 Expenses: 0 Income: 50.10
 
-Day: 25/10/70 Time: 13:00 Expenses: 300 Income: 999
+Day: 26/10/69 Time: 12:00 Expenses: 0 Income: 0
+
+Day: 26/10/69 Time: 13:00 Expenses: 0 Income: 10
+
+Day: 27/10/69 Time: 12:00 Expenses: 0 Income: 0
+
+Day: 29/10/69 Time: 12:00 Expenses: 0 Income: 0
 
 ```
 
