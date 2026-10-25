@@ -12,6 +12,7 @@
 *   **Automatic Data Cleaning:** มีระบบตัดช่องว่างสากล (`deleteEmpty`) ตั้งแต่เริ่มอ่านบรรทัด ป้องกันข้อผิดพลาดจากมนุษย์ (Human Error) หากเผลอกดเว้นวรรคตอนคีย์ข้อมูล
 *   **Persistent Storage:** บันทึกข้อมูลลงไฟล์ `data.csv` แบบถาวร สามารถนำไปเปิดและประมวลผลต่อบน Microsoft Excel หรือ Google Sheets ได้ทันที
 *   **Comment Support:** รองรับการใส่หมายเหตุหรือคอมเมนต์ในไฟล์ข้อมูล หากบรรทัดไหนขึ้นต้นด้วยจุด `.` โปรแกรมจะข้ามการทำงานไปบรรทัดถัดไปอัตโนมัติ
+*   **Data Day Checking:** เช็คข้อมูลผ่าน วว/ดด/ปป ได้ Function ใหม่อัปเดต 25/10/69
 
 ---
 
@@ -39,7 +40,7 @@ Day: 25/10/70 Time: 13:00 Expenses: 300 Income: 999
 
 1. คลอนรีโพสิทอรีนี้ไปยังเครื่องของคุณ:
    ```bash
-   git clone https://github.com
+   git clone https://github.com/overants01/csv-data-parser-cpp
    ```
 2. รันโปรแกรม:
    ```bash

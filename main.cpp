@@ -25,7 +25,7 @@ string getData(const string &FileName)
     if (!DataFile.is_open())
     {
         cout << "Cannot Open File: " << FileName << "!\n";
-        return "None";
+        return "";
     }
     string line;
     string Data = "";
@@ -50,8 +50,42 @@ string getData(const string &FileName)
     return Data;
 }
 
+string getDataDay(const string &FileName, const string &DayTarget)
+{
+    ifstream DataFile(FileName);
+    if (!DataFile.is_open())
+    {
+        cout << "Cannot Open File: " << FileName << "!\n";
+        return "";
+    }
+    string line;
+    string Data = "";
+
+    while (getline(DataFile, line))
+    {
+        if (start_with(line, "."))
+        {
+            continue;
+        }
+        // line == day, time, expenses, Income
+        deleteEmpty(line);                                       // line == day,time,expenses,Income
+        string day = get_str_until(line, ",");                   // day
+        string Time = sub_str_until(line, ",");                  // time,expenses,Income
+        Time = get_str_until(Time, ",");                         // time
+        string expenses = sub_str(line, day + "," + Time + ","); // expenses,Income
+        expenses = get_str_until(expenses, ",");
+        string Income = sub_str(line, day + "," + Time + "," + expenses + ",");
+        if (day == DayTarget)
+        {
+            Data = Data + "\nDay: " + day + " Time: " + Time + " Expenses: " + expenses + " Income: " + Income + "\n";
+        }
+    }
+    DataFile.close();
+    return Data;
+}
+
 int main()
 {
-    cout << getData("data.csv") << "\n";
+    cout << getDataDay("data.csv", "25/10/69") << "\n";
     return 0;
 }
