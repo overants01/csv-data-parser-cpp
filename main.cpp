@@ -13,23 +13,16 @@ bool IsCorrectData(const string &Data)
         return false;
     }
     int commaCount = 0;
-    if (have_str(Data, ","))
+    for (char c : Data)
     {
-        for (char c : Data)
+        if (c == ',')
         {
-            if (c == ',')
-            {
-                commaCount++;
-            }
-        }
-        if (commaCount == 3)
-        {
-            return true;
+            commaCount++;
         }
     }
-    else
+    if (commaCount == 3)
     {
-        return false;
+        return true;
     }
     return false;
 }
