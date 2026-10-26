@@ -22,9 +22,9 @@ bool IsCorrectData(const string &Data)
                 commaCount++;
             }
         }
-        if (commaCount != 3)
+        if (commaCount == 3)
         {
-            return false;
+            return true;
         }
     }
     else
