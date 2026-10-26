@@ -83,7 +83,7 @@ namespace pro
         return str;
     }
 
-    inline void lower(std::string &target)
+    inline std::string lower(std::string &target)
     {
         for (auto &i : target)
         {
@@ -92,8 +92,9 @@ namespace pro
                 i += 32;
             }
         }
+        return target;
     }
-    inline void upper(std::string &target)
+    inline std::string upper(std::string &target)
     {
         for (auto &i : target)
         {
@@ -102,5 +103,6 @@ namespace pro
                 i -= 32;
             }
         }
+        return target;
     }
 }

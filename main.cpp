@@ -6,12 +6,45 @@
 using std::cout, std::cin, std::ofstream, std::ifstream, std::string, std::getline;
 using namespace pro;
 
+bool IsCorrectData(const string &Data)
+{
+    if (Data.empty())
+    {
+        return false;
+    }
+    int commaCount = 0;
+    if (have_str(Data, ","))
+    {
+        for (char c : Data)
+        {
+            if (c == ',')
+            {
+                commaCount++;
+            }
+        }
+        if (commaCount != 3)
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+    return false;
+}
+
 void NewData(const string &FileName, const string &Data)
 {
     ofstream DataFile(FileName, std::ios::app);
     if (!DataFile.is_open())
     {
         cout << "Cannot Open File: " << FileName << "!\n";
+        return;
+    }
+    if (!IsCorrectData(Data))
+    {
+        cout << "Data is not correct!\n";
         return;
     }
     DataFile << Data << "\n";
@@ -198,6 +231,11 @@ void EditData(const string &FileName, string &DayOldAndTime, const string &NewDa
     if (!DataFile.is_open())
     {
         cout << "Cannot Open File: " << FileName << "!\n";
+        return;
+    }
+    if (!IsCorrectData(NewData))
+    {
+        cout << "Data is not correct!\n";
         return;
     }
     string line;
