@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <expected>
 
 namespace pro
 {
@@ -104,5 +105,20 @@ namespace pro
             }
         }
         return target;
+    }
+
+    // New Function!!!
+    inline std::string get(const std::string &Target, const size_t &start = 0, const size_t &end = 1)
+    {
+        if (start < 0 || start > end || end < 0 || end > Target.length())
+        {
+            throw std::invalid_argument("Error Start/End Number");
+        }
+        std::string res = "";
+        for (size_t i = start; i < end; i++)
+        {
+            res += Target[i];
+        }
+        return res;
     }
 }

@@ -1,10 +1,26 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <map>
+#include <vector>
+#include <expected>
 #include "stringpro.hpp"
 
-using std::cout, std::cin, std::ofstream, std::ifstream, std::string, std::getline;
+using std::cout, std::cin, std::ofstream, std::ifstream, std::string, std::getline, std::map, std::vector, std::runtime_error, std::invalid_argument;
 using namespace pro;
+
+bool IsCorrectDay(const string &Day)
+{
+    if (Day.empty())
+    {
+        throw invalid_argument("Day Is Empty");
+    }
+    if (Day[2] == '/' && Day[5] == '/')
+    {
+        return true;
+    }
+    return false;
+}
 
 bool IsCorrectData(const string &Data)
 {
@@ -86,7 +102,7 @@ string getData(const string &FileName)
     return Data;
 }
 
-string getDataDay(const string &FileName, const string &DayTarget)
+string getDataDay(const string &FileName, const string &DayTarget, const bool &IsOneTime = false)
 {
     ifstream DataFile(FileName);
     if (!DataFile.is_open())
@@ -114,13 +130,17 @@ string getDataDay(const string &FileName, const string &DayTarget)
         if (day == DayTarget)
         {
             Data = Data + "\nDay: " + day + " Time: " + Time + " Expenses: " + expenses + " Income: " + Income + "\n";
+            if (IsOneTime == true)
+            {
+                break;
+            }
         }
     }
     DataFile.close();
     return Data;
 }
 
-string getDataDays(const string &FileName, const string &StartDay, const string &EndDay)
+string getDataDays(const string &FileName, const string &StartDay, const string &EndDay, const bool &RawVactor = false)
 {
     ifstream DataFile(FileName);
     if (!DataFile.is_open())
@@ -130,6 +150,7 @@ string getDataDays(const string &FileName, const string &StartDay, const string 
     }
     string line;
     string Data = "";
+    vector<string> dataVector;
 
     while (getline(DataFile, line))
     {
@@ -150,10 +171,18 @@ string getDataDays(const string &FileName, const string &StartDay, const string 
         string reversedEndDay = reverseDay(EndDay);
         if (reversedDay >= reversedStartDay && reversedDay <= reversedEndDay)
         {
-            Data = Data + "\nDay: " + day + " Time: " + Time + " Expenses: " + expenses + " Income: " + Income + "\n";
+            if (RawVactor == true)
+            {
+                continue;
+            }
+            Data += "\nDay: " + day + " Time: " + Time + " Expenses: " + expenses + " Income: " + Income + "\n";
         }
     }
     DataFile.close();
+    if (RawVactor == true)
+    {
+        return "dataVector";
+    }
     return Data;
 }
 
@@ -272,11 +301,14 @@ void EditData(const string &FileName, string &DayOldAndTime, const string &NewDa
 int main()
 {
 
-    cout << getDataDays("data.csv", "25/10/69", "29/10/69") << "\n";
-    string DayOldAndTime = "25/10/69, 12:00";
-    EditData("data.csv", DayOldAndTime, "25/10/69, 12:00, 100, 200");
+    // cout << getDataDays("data.csv", "25/10/69", "29/10/69") << "\n";
+    // string DayOldAndTime = "25/10/69, 12:00";
+    // EditData("data.csv", DayOldAndTime, "25/10/69, 12:00, 100, 200");
     // cout << getALLexpenses("data.csv") << "\n";
     // cout << getALLIncome("data.csv") << "\n";
     // cout << getData("data.csv") << "\n";
+    // cout << getDataDay("data.csv", "25/10/69") << "\n";
+    // Record Test("25/10/69");
+    // Test.Show();
     return 0;
 }
