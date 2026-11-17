@@ -12,7 +12,7 @@ using namespace pro;
 
 void clearCS(string &target)
 {
-    sub_str(target, ",");
+    target = sub_str(target, ",");
     deleteEmpty(target);
 }
 
